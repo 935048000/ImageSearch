@@ -21,8 +21,20 @@ The program uses keras as the front end and the TensorFlow as the back end to ex
 This program's keras uses the pre-training model VGG16 for feature extraction of the CNN model.
 
 
+## feat2file.py
+
+This is an application that extracts images in bulk and writes to the hdf5 file.
 
 
+## imageQuery.py
 
+This is an image retrieval program that only needs to specify the retrieved image and feature files to get the closest image.
 
+## model
+
+The file under this directory is a feature index file.
+
+## log
+
+The files in this directory are test logs.
 
