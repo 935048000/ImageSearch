@@ -8,8 +8,22 @@ from pyprind import ProgBar
 import cv2
 
 class imgchange():
+    """
+    图像变换类：
+        将原图像根据指定算法变换为所需的大小类型的图像
+    Image transformation class:
+        transforms the original image into the desired size type image according to the specified algorithm.
+    """
 
     def ichange(self,imagefile1,imagefile2,h,w):
+        """
+        Tensorflow in AREA algorithm
+        :param imagefile1: old
+        :param imagefile2: new
+        :param h: 高 height
+        :param w: 宽 wide
+        :return: int
+        """
         
         # 读取图片
         image_raw_data = tf.gfile.FastGFile (imagefile1, 'rb').read ()
@@ -37,6 +51,14 @@ class imgchange():
         return 0
 
     def ichange2(self,imageFile1,imageFile2,h,w):
+        """
+        opencv3 in AREA algorithm
+        :param imagefile1: old
+        :param imagefile2: new
+        :param h: 高 height
+        :param w: 宽 wide
+        :return: int
+        """
         image = cv2.imread (imageFile1)
         res = cv2.resize (image, (w, h), interpolation=cv2.INTER_AREA)
         # cv2.imshow ('iker', res)
@@ -62,7 +84,7 @@ if __name__ == '__main__':
 
     pass
 
-    from imageSearch.keras_cnn_imageSearch.base import base
+    from base import base
 
     b = base ()
 
