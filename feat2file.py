@@ -3,7 +3,7 @@ import h5py
 import numpy as np
 import argparse
 import time
-from extract_cnn_vgg16_keras import extract_feat
+from feature_extraction import extract_feat
 # from memory_profiler import profile
 from pyprind import ProgBar
 

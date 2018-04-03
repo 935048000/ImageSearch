@@ -1,4 +1,4 @@
-from extract_cnn_vgg16_keras import extract_feat
+from feature_extraction import extract_feat
 
 import numpy as np
 import h5py
