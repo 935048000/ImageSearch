@@ -4,7 +4,7 @@ from numpy import linalg as LA
 from keras.applications.vgg16 import VGG16
 from keras.preprocessing import image
 from keras.applications.vgg16 import preprocess_input
-# from PIL import Image
+from PIL import Image
 from cv2 import imread,resize,cvtColor,COLOR_BGR2RGB,INTER_AREA,imshow
 
 '''
