@@ -64,7 +64,7 @@ if __name__ == '__main__':
     # print(norm_feat.shape)
     # print(feats.shape)
 
-    img_path = "H:/dataset/testingset/20150630152018514.JPEG"
+    img_path = "H:/dataset/testingset/19700102125648863.JPEG"
     norm_feat = extract_feat(img_path)
     print(norm_feat.shape)
 

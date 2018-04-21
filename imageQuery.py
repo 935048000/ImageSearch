@@ -8,7 +8,7 @@ from matplotlib import image as mpimg
 import argparse
 import os
 import time
-from memory_profiler import profile
+# from memory_profiler import profile
 
 # 命令行参数功能
 def comdArgs():
