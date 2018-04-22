@@ -234,10 +234,13 @@ def showSearchResult(resultnum,queryImage,ModelFile,imageinfopath):
 def main():
 
     # feats, imgNames = readFeature (Model)
-    
 
-    showSearchResult (3, queryImage, Model, imageinfopath)
-    
+    start2 = time.time ()
+    for _ in range(0,10):
+        showSearchResult (3, queryImage, Model, imageinfopath)
+
+    now = time.time () - start2
+    print(now/10)
     
     # testSetTest (testSet, imageinfopath, feats, imgNames)
     
@@ -295,8 +298,7 @@ if __name__ == '__main__':
     # b = base ()
     
 
-    queryImage = "H:/datasets/testingset/20150630163114680.JPEG"
-    # queryImage = "./19700102125648863.JPEG"
+    queryImage = "H:/datasets/testingset/20150716105829724.JPEG"
 
     main()
     
