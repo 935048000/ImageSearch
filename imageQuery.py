@@ -251,8 +251,8 @@ if __name__ == '__main__':
     # 相关参数
     result = "H:/datasets/trainset"
     imageinfopath = "H:/datasets/imageinfo"
-    Model = "./model/imageCNNAll.h5"
-    # Model = "./model/imageCNN6442.h5"
+    Model = "./models/imageCNNAll.h5"
+    # Model = "./models/imageCNN6442.h5"
     # queryImage = "H:/datasets/trainingset1/19700102130430799.JPEG"
     # queryImage = "H:/datasets/001/19700102130428480.JPEG"
     testSet = "H:/datasets/testingset"
@@ -298,7 +298,7 @@ if __name__ == '__main__':
     # b = base ()
     
 
-    queryImage = "H:/datasets/testingset/20150716105829724.JPEG"
+    queryImage = "H:/datasets/testingset/20150716150636523.JPEG"
 
     main()
     

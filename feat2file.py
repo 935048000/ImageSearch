@@ -137,7 +137,7 @@ if __name__ == "__main__":
     pass
     feats = []
     # 数据文件
-    h5filename = "./model/imageCNN6442.h5"
+    h5filename = "./models/imageCNN6442.h5"
 
     
     
@@ -169,11 +169,11 @@ if __name__ == "__main__":
     #
     # print(showHDF5Len (h5filename))
     #
-    # wH5FileData2 ("feature", "imagename", featsList, nameList, "./model/imageCNNAll.h5")
+    # wH5FileData2 ("feature", "imagename", featsList, nameList, "./models/imageCNNAll.h5")
 
-    # print(showHDF5Len ("./model/imageCNNAll.h5"))
+    # print(showHDF5Len ("./models/imageCNNAll.h5"))
 
-    # feats, imgNames = rH5FileData2 ("feature", "imagename", "./model/imageCNNAll.h5")
+    # feats, imgNames = rH5FileData2 ("feature", "imagename", "./models/imageCNNAll.h5")
     # print(len(imgNames))
 
     # 读取数据
