@@ -1,5 +1,4 @@
-from base import base
-from feature_extraction import feature
+from core.feature_extraction import feature
 
 __author__ = "chen.hao <chenhao159482@gmail.com>"
 __license__ = "GNU Lesser General Public License (LGPL)"

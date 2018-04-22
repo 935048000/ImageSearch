@@ -1,4 +1,4 @@
-from feature_extraction import feature
+from core.feature_extraction import feature
 # import feature_extraction
 
 def testCase(img_path):
@@ -11,4 +11,5 @@ def testCase(img_path):
 
 
 if __name__ == '__main__':
-    testCase("H:/datasets/testingset/19700102125648863.JPEG")
+    print(feature.__doc__)
+    # testCase("H:/datasets/testingset/19700102125648863.JPEG")
