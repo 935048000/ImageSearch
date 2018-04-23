@@ -1,4 +1,4 @@
-from core.feature_extraction import extract_feat
+from core.feature_extraction import feature
 
 import numpy as np
 import h5py
@@ -134,8 +134,9 @@ def getImageInfo(image,imagePath):
 
 # 图像特征检索，计算匹配得分
 def featureSearch(queryImage,feats):
+    f = feature()
     # 提取查询图像的特征，计算 simlarity 评分和排序
-    queryVec = extract_feat (queryImage)
+    queryVec = f.extract_feat (queryImage)
     scores = np.dot (queryVec, feats.T)  # 计算点积（内积）,计算图像得分
     # 矩阵乘法并把（纵列）向量当作n×1 矩阵，点积还可以写为：a·b=a^T*b。
     # 点积越大，说明向量夹角越小。点积等于1，则向量为同向，向量夹角0度。
@@ -171,11 +172,7 @@ def testSetTest(testSet,imageinfopath,feats,imgNames):
     probability = 00.00
     num = len (imageList)
     errorNum = 0
-    
-    # testErrorList = []
-    # trainErrorList = []
-    # testImgErrorList = []
-    # trainImgErrorList = []
+
     
     for i in imageList:
         rank_ID, rank_score = featureSearch (i, feats)  # 获取图像得分信息
@@ -184,10 +181,6 @@ def testSetTest(testSet,imageinfopath,feats,imgNames):
         _imageInfo2 = getImageInfo (imList[0], imageinfopath)
         if _imageInfo1 != _imageInfo2:
             errorNum += 1
-            # testErrorList.append (_imageInfo1)
-            # trainErrorList.append (_imageInfo2)
-            # testImgErrorList.append (i)
-            # trainImgErrorList.append (imList[0])
             print ("测试集错误的图片信息： ", _imageInfo1)
             print ("错误的图片最匹配的图片信息：", _imageInfo2)
             print ("测试集错误的图片： ", i)
@@ -196,10 +189,6 @@ def testSetTest(testSet,imageinfopath,feats,imgNames):
     
     probability = errorNum / num
     print ("错误率: %.2f%%" % (probability*100))
-    # print ("测试集错误的图片信息： ", testErrorList)
-    # print ("错误的图片最匹配的图片信息：", trainErrorList)
-    # print ("测试集错误的图片： ", testImgErrorList)
-    # print ("错误的图片最匹配的图片：", trainImgErrorList)
     return 0
 
 # 显示搜索结果
@@ -211,23 +200,24 @@ def showSearchResult(resultnum,queryImage,ModelFile,imageinfopath):
     imList, scoresList = getSearchResult(resultnum,imgNames,rank_ID,rank_score)
     imgInfoList = getImageInfo(imList,imageinfopath)
     _imageInfo = getImageInfo (queryImage, imageinfopath)  # 获取图片信息
-    # if _imageInfo == imgInfoList[0]:
-    #     outputInfo = "完美匹配！"
-    # elif _imageInfo == imgInfoList[1]:
-    #     outputInfo = "次要匹配！"
-    # else:
-    #     outputInfo = "匹配失败！"
-        
     
+    if _imageInfo == imgInfoList[0]:
+        outputInfo = "完美匹配！"
+    elif _imageInfo == imgInfoList[1]:
+        outputInfo = "次要匹配！"
+    else:
+        outputInfo = "匹配失败！"
+        
     print ("原图为  :", queryImage)
     print ("原图信息:",_imageInfo)
     print ("最高相似度的%d张图片为: " % resultnum, imList)
     print ("最高%d张图片的评分：" % resultnum, scoresList)
     print ("图片信息为: ", imgInfoList)
-    # print ("搜索结果 ：",outputInfo)
-    print ("本次查询搜索总耗时(秒)：%.2f s" % (time.time () - start2))
+    print ("搜索结果 ：",outputInfo)
+    print ("本次检索总耗时(秒)：%.2f s" % (time.time () - start2))
     
-    # showimage(queryImage,imList,result)
+    # 显示图像
+    showimage(queryImage,imList,result)
     return 0
 
 # @profile (precision=6)
@@ -235,16 +225,17 @@ def main():
 
     # feats, imgNames = readFeature (Model)
 
+    showSearchResult (3, queryImage, Model, imageinfopath)
+    # testSetTest (testSet, imageinfopath, feats, imgNames)
+    
+def performanceTests(queryImage):
     start2 = time.time ()
     for _ in range(0,10):
         showSearchResult (3, queryImage, Model, imageinfopath)
 
     now = time.time () - start2
-    print(now/10)
-    
-    # testSetTest (testSet, imageinfopath, feats, imgNames)
-    
-    
+    print("10张图像平均耗时：",now/10,"s")
+    return 0
 
 if __name__ == '__main__':
     
@@ -298,7 +289,7 @@ if __name__ == '__main__':
     # b = base ()
     
 
-    queryImage = "H:/datasets/testingset/20150716150636523.JPEG"
+    queryImage = "H:/datasets/testingset/20150716153359429.JPEG"
 
     main()
     

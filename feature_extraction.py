@@ -75,7 +75,8 @@ if __name__ == '__main__':
     img_path = "H:/datasets/testingset/19700102125648863.JPEG"
     f = feature()
     norm_feat = f.extract_feat(img_path)
-    print(norm_feat)
-    print(norm_feat.shape)
+    print("feature value: ",norm_feat)
+    print("feature shape: ",norm_feat.shape)
+    print("feature type: ",type(norm_feat))
 
     

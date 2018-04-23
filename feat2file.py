@@ -2,7 +2,8 @@ import os
 import h5py
 import numpy as np
 import argparse
-from core.feature_extraction import extract_feat
+# from core.feature_extraction import extract_feat
+from core.feature_extraction import feature
 # from memory_profiler import profile
 from pyprind import ProgBar
 from core.base import base
@@ -55,7 +56,7 @@ def rH5FileData2(Key1, key2, filename):
         return 1
 
 
-# 按指定格式写入h5文件
+# 按指定格式写入h5文件（按key存入两个list）
 def wH5FileData(Key,feats,names,filename):
     namess = []
     # 数据编码转换
@@ -73,7 +74,7 @@ def wH5FileData(Key,feats,names,filename):
     return 0
 
 
-# 按指定格式写入h5文件
+# 按指定格式写入h5文件（一次性存入两个list）
 def wH5FileData2(Key1,Key2,feats,names,filename):
     namess = []
     # 数据编码转换
@@ -95,9 +96,10 @@ def wH5FileData2(Key1,Key2,feats,names,filename):
 def etlFeature(post,img_list,h5filename):
 
     # 迭代方式，提取特征值写入h5文件
-    bar = ProgBar (len(img_list), monitor=True, title="提取图片特征,Image Total:%d" % len (img_list))
+    feat = feature()
+    # bar = ProgBar (len(img_list), monitor=True, title="提取图片特征,Image Total:%d" % len (img_list))
     for i, img_path in enumerate (img_list):
-        norm_feat = extract_feat (img_path)
+        norm_feat = feat.extract_feat (img_path)
         img_name = os.path.split (img_path)[1]
         names = []
         names.append (img_name)
@@ -107,9 +109,9 @@ def etlFeature(post,img_list,h5filename):
         except:
             print("Feats Write Error")
             return 1
-        bar.update ()
+        # bar.update ()
         # print ("提取图片特征！进度: %d/%d" % ((i + 1), len (img_list)))
-    print (bar)
+    # print (bar)
     return 0
 
 
@@ -126,11 +128,31 @@ def showHDF5Len(filename):
 def main():
     feats = []
     h5filename = "./imageCNN.h5"
-    dataset = ""
-    img_list = getImageList(dataset)
+    dataset = " "
+    img_list = b.getFileList(dataset,"JPEG")
     etlFeature (showHDF5Len (h5filename), img_list, h5filename)
     return 0
 
+# 特征值数据库功能测试用例
+def testDatabase():
+    featsList = []
+    nameList = []
+    h5filename = "./models/image_Feature_Test.h5"
+    dataset = "./imagetest"
+    # 取图像数据集列表
+    img_list = b.getFileList (dataset, "JPEG")
+    # 提取图像数据集列表特征后存入HDF5文件
+    etlFeature (showHDF5Len (h5filename), img_list, h5filename)
+    # 读取图像特征值和图像名称
+    for i in range (showHDF5Len (h5filename)):
+        feats, imgNames = rH5FileData (i, h5filename)
+        featsList.append (feats)
+        nameList.append (imgNames)
+    print("特征值列表：", featsList)
+    print("特征值列表长度：", len(featsList))
+    print("特征值对应的图像名称：", nameList)
+    print("图像名称列表长度:", len(nameList))
+    return 0
 
 if __name__ == "__main__":
     pass
@@ -138,7 +160,7 @@ if __name__ == "__main__":
     # 数据文件
     h5filename = "./models/imageCNN6442.h5"
 
-    
+    # testDatabase()
     
 
     # 文件条数
