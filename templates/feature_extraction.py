@@ -1,4 +1,4 @@
-from core.feature_extraction import feature
+from core import feature
 # import feature_extraction
 
 def testCase(img_path):
