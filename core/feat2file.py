@@ -93,9 +93,6 @@ def wH5FileData2(Key1,Key2,feats,names,filename):
 # 提取特征并写入文件
 # @profile (precision=6)
 def etlFeature(post,img_list,h5filename):
-
-    # 迭代方式，提取特征值写入h5文件
-    bar = ProgBar (len(img_list), monitor=True, title="提取图片特征,Image Total:%d" % len (img_list))
     for i, img_path in enumerate (img_list):
         norm_feat = extract_feat (img_path)
         img_name = os.path.split (img_path)[1]
@@ -107,9 +104,6 @@ def etlFeature(post,img_list,h5filename):
         except:
             print("Feats Write Error")
             return 1
-        bar.update ()
-        # print ("提取图片特征！进度: %d/%d" % ((i + 1), len (img_list)))
-    print (bar)
     return 0
 
 

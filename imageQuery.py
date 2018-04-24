@@ -165,7 +165,7 @@ def getSearchResult(maxres, imgNames, rank_ID, rank_score):
     
     return _imList, _scoresList
 
-# 测试测试集
+# 测试集测试用例
 def testSetTest(testSet,imageinfopath,feats,imgNames):
     resultnum = 2
     imageList = getImageList (testSet)
@@ -215,8 +215,7 @@ def showSearchResult(resultnum,queryImage,ModelFile,imageinfopath):
     print ("图片信息为: ", imgInfoList)
     print ("搜索结果 ：",outputInfo)
     print ("本次检索总耗时(秒)：%.2f s" % (time.time () - start2))
-    
-    # 显示图像
+
     showimage(queryImage,imList,result)
     return 0
 

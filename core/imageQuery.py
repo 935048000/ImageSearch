@@ -134,16 +134,10 @@ def getImageInfo(image,imagePath):
 
 # 图像特征检索，计算匹配得分
 def featureSearch(queryImage,feats):
-    # 提取查询图像的特征，计算 simlarity 评分和排序
     queryVec = extract_feat (queryImage)
-    scores = np.dot (queryVec, feats.T)  # 计算点积（内积）,计算图像得分
-    # 矩阵乘法并把（纵列）向量当作n×1 矩阵，点积还可以写为：a·b=a^T*b。
-    # 点积越大，说明向量夹角越小。点积等于1，则向量为同向，向量夹角0度。
-    rank_ID = np.argsort (scores)[::-1]  # 排序,倒序，大到小
-    rank_score = scores[rank_ID]  # 计算评分
-    # print("scores",scores,type(scores))
-    # print ("rank_ID",rank_ID,type(rank_ID))
-    # print ("rank_score",rank_score,type(rank_score))
+    scores = np.dot (queryVec, feats.T)
+    rank_ID = np.argsort (scores)[::-1]
+    rank_score = scores[rank_ID]
     return rank_ID,rank_score
 
 
@@ -152,12 +146,10 @@ def getSearchResult(maxres, imgNames, rank_ID, rank_score):
     _imList = []
     _scoresList = []
     
-    # 生成图片列表
     for i, index in enumerate (rank_ID[0:maxres]):
         _temp = imgNames[index]
         _imList.append (_temp)
     
-    # 生成搜索得分列表
     for j in rank_score[0:maxres]:
         _temp = float ("%.2f" % (j * 100))
         _scoresList.append (_temp)
@@ -211,23 +203,22 @@ def showSearchResult(resultnum,queryImage,ModelFile,imageinfopath):
     imList, scoresList = getSearchResult(resultnum,imgNames,rank_ID,rank_score)
     imgInfoList = getImageInfo(imList,imageinfopath)
     _imageInfo = getImageInfo (queryImage, imageinfopath)  # 获取图片信息
-    # if _imageInfo == imgInfoList[0]:
-    #     outputInfo = "完美匹配！"
-    # elif _imageInfo == imgInfoList[1]:
-    #     outputInfo = "次要匹配！"
-    # else:
-    #     outputInfo = "匹配失败！"
-        
-    
+    if _imageInfo == imgInfoList[0]:
+        outputInfo = "完美匹配！"
+    elif _imageInfo == imgInfoList[1]:
+        outputInfo = "次要匹配！"
+    else:
+        outputInfo = "匹配失败！"
+
     print ("原图为  :", queryImage)
     print ("原图信息:",_imageInfo)
     print ("最高相似度的%d张图片为: " % resultnum, imList)
     print ("最高%d张图片的评分：" % resultnum, scoresList)
     print ("图片信息为: ", imgInfoList)
-    # print ("搜索结果 ：",outputInfo)
+    print ("搜索结果 ：",outputInfo)
     print ("本次查询搜索总耗时(秒)：%.2f s" % (time.time () - start2))
-    
-    # showimage(queryImage,imList,result)
+
+    showimage(queryImage,imList,result)
     return 0
 
 # @profile (precision=6)

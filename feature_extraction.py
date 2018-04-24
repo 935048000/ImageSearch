@@ -19,6 +19,21 @@ class feature():
     def __init__(self):
         pass
     
+    # 图像变换
+    def imageAdjust(self,image,width,height):
+        # 方法1，使用PIL的image方法进行图像插值，使图像符合模型定义的形状。
+        # 插值模式 interpolation = "nearest", "bilinear","bicubic","lanczos","box","hamming"
+        # img = image.load_img(img_path, target_size=(input_shape[0], input_shape[1]),interpolation="lanczos")
+        # Image._show(img)
+        # print(Image._conv_type_shape(img))
+        
+        # 使用opencv的resize方法进行图像插值，使图像符合模型定义的形状。
+        _img = imread (image)
+        res = resize (_img, (width, height), interpolation=INTER_AREA)
+        img = Image.fromarray (cvtColor (res, COLOR_BGR2RGB))
+        # print (Image._conv_type_shape (img))
+        # img.show()
+        return img
     
     def extract_feat(self,img_path):
         # weights: None代表随机初始化，即不加载预训练权重。'imagenet'代表加载预训练权重
@@ -30,21 +45,10 @@ class feature():
         # include_top：是否保留顶层的3个全连接网络
         
         input_shape = (272, 480, 3)
-        # models = VGG16(weights = 'imagenet', input_shape = (input_shape[0],input_shape[1],input_shape[2]), pooling = 'max', include_top = False)
         model = VGG16(input_shape = (input_shape[0],input_shape[1],input_shape[2]), pooling = 'max', include_top = False)
     
-        # 方法1，使用PIL的image方法进行图像插值，使图像符合模型定义的形状。
-        # 插值模式 interpolation = "nearest", "bilinear","bicubic","lanczos","box","hamming"
-        # img = image.load_img(img_path, target_size=(input_shape[0], input_shape[1]),interpolation="lanczos")
-        # Image._show(img)
-        # print(Image._conv_type_shape(img))
-    
-        # 方法2，使用opencv的resize方法进行图像插值，使图像符合模型定义的形状。
-        _img = imread (img_path)
-        res = resize (_img, (input_shape[1], input_shape[0]), interpolation=INTER_AREA)
-        img = Image.fromarray (cvtColor (res, COLOR_BGR2RGB))
-        # print (Image._conv_type_shape (img))
-        # img.show()
+        feat = feature()
+        img = feat.imageAdjust(img_path,input_shape[1],input_shape[0])
         
         img = image.img_to_array(img)
         img = np.expand_dims(img, axis=0)
@@ -75,8 +79,8 @@ if __name__ == '__main__':
     img_path = "H:/datasets/testingset/19700102125648863.JPEG"
     f = feature()
     norm_feat = f.extract_feat(img_path)
-    print("feature value: ",norm_feat)
-    print("feature shape: ",norm_feat.shape)
-    print("feature type: ",type(norm_feat))
+    # print("feature value: ",norm_feat)
+    # print("feature shape: ",norm_feat.shape)
+    # print("feature type: ",type(norm_feat))
 
     
