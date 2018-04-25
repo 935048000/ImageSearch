@@ -34,6 +34,10 @@ class feature():
         # print (Image._conv_type_shape (img))
         # img.show()
         return img
+
+    # 向量归一化
+    def toOne(self,array):
+        return array/LA.norm(array)
     
     def extract_feat(self,img_path):
         # weights: None代表随机初始化，即不加载预训练权重。'imagenet'代表加载预训练权重
@@ -47,8 +51,8 @@ class feature():
         input_shape = (272, 480, 3)
         model = VGG16(input_shape = (input_shape[0],input_shape[1],input_shape[2]), pooling = 'max', include_top = False)
     
-        feat = feature()
-        img = feat.imageAdjust(img_path,input_shape[1],input_shape[0])
+        f = feature()
+        img = f.imageAdjust(img_path,input_shape[1],input_shape[0])
         
         img = image.img_to_array(img)
         img = np.expand_dims(img, axis=0)
@@ -56,8 +60,9 @@ class feature():
         feat = model.predict(img)
         
         # 归一化
-        norm_feat = feat[0]/LA.norm(feat[0])
-        return norm_feat
+        # norm_feat = f.toOne(feat[0])
+        
+        return f.toOne(feat[0])
 
 
 if __name__ == '__main__':
@@ -80,7 +85,7 @@ if __name__ == '__main__':
     f = feature()
     norm_feat = f.extract_feat(img_path)
     # print("feature value: ",norm_feat)
-    # print("feature shape: ",norm_feat.shape)
-    # print("feature type: ",type(norm_feat))
+    print("feature shape: ",norm_feat.shape)
+    print("feature type: ",type(norm_feat))
 
     
