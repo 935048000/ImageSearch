@@ -1,5 +1,5 @@
 from core.feature_extraction import feature
-
+from base import base
 import numpy as np
 import h5py
 
@@ -22,10 +22,6 @@ def comdArgs():
     Model = args['f']
     queryImage = args['image']
     return queryImage,Model,result
-
-# 返回目录中所有jpg图像的文件名列表。
-def getImageList(path):
-    return [os.path.join (path, f) for f in os.listdir (path) if f.endswith ('.JPEG')]
 
 def getInfoFileList(path):
     return [os.path.join (path, f) for f in os.listdir (path) if f.endswith ('.txt')]
@@ -52,9 +48,7 @@ def showimage(queryImage, imlist, result):
         plt.title ("top %d" % (i + 1))
         plt.imshow (image)
         plt.show ()
-    
     return 0
-
 
 # 按指定格式读取h5文件
 def rH5FileData(Key,filename):
@@ -94,34 +88,21 @@ def readFeature(h5filename):
     featsArrayList = np.array (featsList)
     return featsArrayList,nameList
 
-# 获取图像文件名字,有文件类别后缀的。
-def getImageName(imagefile):
-    _temp = imagefile.split("/")[-1]
-    return _temp.split("\\")[-1]
-
-# 获取图像名字,无文件类别后缀的。
-def getImageName2(imagefile):
-    return imagefile.split(".")[0]
-
-# 获取图像信息文件名
-def getImageTxtName(imagefile):
-    return imagefile+".txt"
-
 # 获取图像信息
 def getImageInfo(image,imagePath):
+    b = base()
     _imgInfoList = []
     _imgList = []
     def _getImageInfoList(imgList):
         for i in imgList:
-            _image = getImageName (i)
-            _imageName = getImageName2 (_image)
-            _imageInfoFile = getImageTxtName (_imageName)
+            _image = b.getFileName (i)
+            _imageName = b.getFileNameNoSuffix (_image)
+            _imageInfoFile = b.definedFileSuffix (_imageName,"txt")
             _imageInfoFile = imagePath + "/" + _imageInfoFile
             with open (_imageInfoFile, 'r', encoding='utf-8') as f:
                 imageInfo = f.readline ().strip ("\n")
             _imgInfoList.append(imageInfo)
         return _imgInfoList
-    
     
     if type(image) != list:
         _imgList.append(image)
@@ -142,9 +123,9 @@ def featureSearch(queryImage,feats):
     # 点积越大，说明向量夹角越小。点积等于1，则向量为同向，向量夹角0度。
     rank_ID = np.argsort (scores)[::-1]  # 排序,倒序，大到小
     rank_score = scores[rank_ID]  # 计算评分
-    # print("scores",scores,type(scores))
-    # print ("rank_ID",rank_ID,type(rank_ID))
-    # print ("rank_score",rank_score,type(rank_score))
+    print("scores",scores,type(scores))
+    print ("rank_ID",rank_ID,type(rank_ID))
+    print ("rank_score",rank_score,type(rank_score))
     return rank_ID,rank_score
 
 
@@ -167,8 +148,9 @@ def getSearchResult(maxres, imgNames, rank_ID, rank_score):
 
 # 测试集测试用例
 def testSetTest(testSet,imageinfopath,feats,imgNames):
+    b = base()
     resultnum = 2
-    imageList = getImageList (testSet)
+    imageList = b.getFileList (testSet,"JPEG")
     probability = 00.00
     num = len (imageList)
     errorNum = 0
@@ -226,7 +208,8 @@ def main():
 
     showSearchResult (3, queryImage, Model, imageinfopath)
     # testSetTest (testSet, imageinfopath, feats, imgNames)
-    
+
+# 性能测试用例
 def performanceTests(queryImage):
     start2 = time.time ()
     for _ in range(0,10):
