@@ -7,6 +7,7 @@ from core.feature_extraction import feature
 # from memory_profiler import profile
 from pyprind import ProgBar
 from core.base import base
+from time import time
 
 b = base ()
 
@@ -142,15 +143,18 @@ def testDatabase():
     # 取图像数据集列表
     img_list = b.getFileList (dataset, "JPEG")
     # 提取图像数据集列表特征后存入HDF5文件
+    t = time()
     etlFeature (showHDF5Len (h5filename), img_list, h5filename)
+    print ("特征数据库写入耗时(秒)：%.2f s" % (time () - t))
     # 读取图像特征值和图像名称
+    t = time ()
     for i in range (showHDF5Len (h5filename)):
         feats, imgNames = rH5FileData (i, h5filename)
         featsList.append (feats)
         nameList.append (imgNames)
-    print("特征值列表：", featsList)
+    print ("特征数据库读取耗时(秒)：%.2f s" % (time () - t))
     print("特征值列表长度：", len(featsList))
-    print("特征值对应的图像名称：", nameList)
+    print("特征值对应的图像名称列表：", nameList)
     print("图像名称列表长度:", len(nameList))
     return 0
 
@@ -160,8 +164,9 @@ if __name__ == "__main__":
     # 数据文件
     h5filename = "./models/imageCNN6442.h5"
 
-    # testDatabase()
-    
+    t = time()
+    testDatabase()
+    print ("数据库读写总耗时(秒)：%.2f s" % (time () - t))
 
     # 文件条数
     # lens = showHDF5Len (h5filename)

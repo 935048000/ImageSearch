@@ -36,7 +36,7 @@ def showHDF5Len(filename):
         return int(len(h5f)/2)
 
 # 显示图片：查询图，匹配结果图
-def showimage(queryImage, imlist, result):
+def showImage(queryImage, imlist, result):
     # 读取和显示查询图像
     _queryImg = mpimg.imread (queryImage)
     plt.title ("Query Image")
@@ -198,7 +198,7 @@ def showSearchResult(resultnum,queryImage,ModelFile,imageinfopath):
     print ("搜索结果 ：",outputInfo)
     print ("本次检索总耗时(秒)：%.2f s" % (time.time () - start2))
 
-    showimage(queryImage,imList,result)
+    showImage(queryImage,imList,result)
     return 0
 
 # @profile (precision=6)

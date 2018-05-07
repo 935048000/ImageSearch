@@ -6,6 +6,7 @@ from keras.preprocessing import image
 from keras.applications.vgg16 import preprocess_input
 from PIL import Image
 from cv2 import imread,resize,cvtColor,COLOR_BGR2RGB,INTER_AREA,imshow
+from time import time
 
 '''
 VGG16模型,权重由ImageNet训练而来
@@ -64,6 +65,15 @@ class feature():
         
         return f.toOne(feat[0])
 
+def testExtractFeat(img):
+    f = feature ()
+    t = time()
+    norm_feat = f.extract_feat (img)
+    print ("特征提取耗时(秒)：%.2f s" % (time () - t))
+    print ("特征向量形状: ", norm_feat.shape)
+    print ("特征向量大小: ", norm_feat.size)
+    print ("特征向量类型: ", type (norm_feat))
+    return 0
 
 if __name__ == '__main__':
     print("local run .....")
@@ -82,10 +92,6 @@ if __name__ == '__main__':
     # print(feats.shape)
 
     img_path = "H:/datasets/testingset/19700102125648863.JPEG"
-    f = feature()
-    norm_feat = f.extract_feat(img_path)
-    # print("feature value: ",norm_feat)
-    print("feature shape: ",norm_feat.shape)
-    print("feature type: ",type(norm_feat))
 
+    testExtractFeat(img_path)
     
