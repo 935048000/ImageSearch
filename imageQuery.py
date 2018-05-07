@@ -2,7 +2,7 @@ from core.feature_extraction import feature
 from base import base
 import numpy as np
 import h5py
-
+from feat2file import rH5FileData2
 from matplotlib import pyplot as plt
 from matplotlib import image as mpimg
 import argparse
@@ -39,20 +39,20 @@ def showImage(queryImage, imlist, result):
         plt.show ()
     return 0
 
-def rH5FileData2(Key1, key2, filename):
-    NameList = []
-    featsArrayList = []
-    try:
-        with h5py.File (filename, 'r') as h5f:
-            feats = h5f[Key1][:]
-            imgNames = h5f[key2][:]
-            for i in imgNames:
-                NameList.append (i.decode ("utf-8"))
-            featsArrayList = np.array (feats)
-            return featsArrayList, NameList
-    except KeyError:
-        print ("Read HDF5 File Key Error")
-        return 1
+# def rH5FileData2(Key1, key2, filename):
+#     NameList = []
+#     featsArrayList = []
+#     try:
+#         with h5py.File (filename, 'r') as h5f:
+#             feats = h5f[Key1][:]
+#             imgNames = h5f[key2][:]
+#             for i in imgNames:
+#                 NameList.append (i.decode ("utf-8"))
+#             featsArrayList = np.array (feats)
+#             return featsArrayList, NameList
+#     except KeyError:
+#         print ("Read HDF5 File Key Error")
+#         return 1
 
 # 获取图像信息
 def getImageInfo(image,imagePath):
