@@ -23,17 +23,6 @@ def comdArgs():
     queryImage = args['image']
     return queryImage,Model,result
 
-def getInfoFileList(path):
-    return [os.path.join (path, f) for f in os.listdir (path) if f.endswith ('.txt')]
-
-# 获取HDF5文件数据数量，便于追加和读取。
-def showHDF5Len(filename):
-    # 文件不存在则重写，不追加
-    if not os.path.exists(filename):
-        return 0
-    # 存在则追加
-    with h5py.File (filename, 'r') as h5f:
-        return int(len(h5f)/2)
 
 # 显示图片：查询图，匹配结果图
 def showImage(queryImage, imlist, result):
@@ -50,17 +39,6 @@ def showImage(queryImage, imlist, result):
         plt.show ()
     return 0
 
-# 按指定格式读取h5文件
-def rH5FileData(Key,filename):
-    try:
-        with h5py.File (filename, 'r') as h5f:
-            feats = h5f["data" + str (Key)][:]
-            imgNames = h5f["name" + str (Key)][:]
-            return feats,imgNames[0].decode("utf-8")
-    except KeyError:
-        print("Read HDF5 File Key Error")
-        return 1
-
 def rH5FileData2(Key1, key2, filename):
     NameList = []
     featsArrayList = []
@@ -75,18 +53,6 @@ def rH5FileData2(Key1, key2, filename):
     except KeyError:
         print ("Read HDF5 File Key Error")
         return 1
-
-
-# 读取索引图像的特征向量和相应的图像名称
-def readFeature(h5filename):
-    featsList = []
-    nameList = []
-    for i in range (showHDF5Len(h5filename)):
-        feats, imgNames = rH5FileData (i, h5filename)
-        featsList.append (feats)
-        nameList.append (imgNames)
-    featsArrayList = np.array (featsList)
-    return featsArrayList,nameList
 
 # 获取图像信息
 def getImageInfo(image,imagePath):
@@ -203,8 +169,6 @@ def showSearchResult(resultnum,queryImage,ModelFile,imageinfopath):
 
 # @profile (precision=6)
 def main():
-
-    # feats, imgNames = readFeature (Model)
 
     showSearchResult (3, queryImage, Model, imageinfopath)
     # testSetTest (testSet, imageinfopath, feats, imgNames)
