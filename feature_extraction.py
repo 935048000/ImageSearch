@@ -91,7 +91,7 @@ if __name__ == '__main__':
     # print(norm_feat.shape)
     # print(feats.shape)
 
-    img_path = "H:/datasets/testingset/19700102125648863.JPEG"
+    img_path = "H:/datasets/trainset/19700102135249492.JPEG"
 
     testExtractFeat(img_path)
     
