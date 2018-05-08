@@ -67,12 +67,22 @@ class feature():
 
 def testExtractFeat(img):
     f = feature ()
-    t = time()
+    # t = time()
     norm_feat = f.extract_feat (img)
-    print ("特征提取耗时(秒)：%.2f s" % (time () - t))
-    print ("特征向量形状: ", norm_feat.shape)
-    print ("特征向量大小: ", norm_feat.size)
-    print ("特征向量类型: ", type (norm_feat))
+    # print ("特征提取耗时(秒)：%.2f s" % (time () - t))
+    # print ("特征向量形状: ", norm_feat.shape)
+    # print ("特征向量大小: ", norm_feat.size)
+    # print ("特征向量类型: ", type (norm_feat))
+    return norm_feat
+
+def proTest():
+    img_path = "H:/datasets/trainset/19700102135249492.JPEG"
+    t = time ()
+    
+    for _ in range(10):
+        testExtractFeat (img_path)
+        
+    print ("特征提取耗时(秒)：%.2f s" % ((time () - t)/10))
     return 0
 
 if __name__ == '__main__':
@@ -91,7 +101,10 @@ if __name__ == '__main__':
     # print(norm_feat.shape)
     # print(feats.shape)
 
-    img_path = "H:/datasets/trainset/19700102135249492.JPEG"
+    # img_path = "H:/datasets/trainset/19700102135249492.JPEG"
+    #
+    # testExtractFeat(img_path)
 
-    testExtractFeat(img_path)
+    proTest ()
+    
     

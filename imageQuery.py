@@ -39,21 +39,6 @@ def showImage(queryImage, imlist, result):
         plt.show ()
     return 0
 
-# def rH5FileData2(Key1, key2, filename):
-#     NameList = []
-#     featsArrayList = []
-#     try:
-#         with h5py.File (filename, 'r') as h5f:
-#             feats = h5f[Key1][:]
-#             imgNames = h5f[key2][:]
-#             for i in imgNames:
-#                 NameList.append (i.decode ("utf-8"))
-#             featsArrayList = np.array (feats)
-#             return featsArrayList, NameList
-#     except KeyError:
-#         print ("Read HDF5 File Key Error")
-#         return 1
-
 # 获取图像信息
 def getImageInfo(image,imagePath):
     b = base()
@@ -89,9 +74,9 @@ def featureSearch(queryImage,feats):
     # 点积越大，说明向量夹角越小。点积等于1，则向量为同向，向量夹角0度。
     rank_ID = np.argsort (scores)[::-1]  # 排序,倒序，大到小
     rank_score = scores[rank_ID]  # 计算评分
-    print("scores",scores,type(scores))
-    print ("rank_ID",rank_ID,type(rank_ID))
-    print ("rank_score",rank_score,type(rank_score))
+    # print("scores",scores,type(scores))
+    # print ("rank_ID",rank_ID,type(rank_ID))
+    # print ("rank_score",rank_score,type(rank_score))
     return rank_ID,rank_score
 
 
@@ -183,6 +168,28 @@ def performanceTests(queryImage):
     print("10张图像平均耗时：",now/10,"s")
     return 0
 
+# 召回率测试
+def recallRate():
+    recallList = []
+    b = base()
+    _testImgList = b.getFileList("H:/datasets/testingset","JPEG")
+    import random
+    testList = random.sample(_testImgList,40)
+    
+    feats, imgNames = rH5FileData2 ("feature", "imagename", "./models/imageCNNAll.h5")
+    
+    for queryImage in testList:
+        rank_ID, rank_score = featureSearch (queryImage, feats)
+        imList, scoresList = getSearchResult (40, imgNames, rank_ID, rank_score)
+        imgInfoList = getImageInfo (imList, "H:/datasets/imageinfo")
+        _imageInfo = getImageInfo (queryImage, "H:/datasets/imageinfo")  # 获取图片信息
+        count = imgInfoList.count(_imageInfo)
+        recallList.append(count/40)
+
+    print(recallList)
+    print("recall rate:",(sum(recallList)/len(recallList)))
+    return 0
+
 if __name__ == '__main__':
     
     # 相关参数
@@ -231,18 +238,15 @@ if __name__ == '__main__':
     #     main()
     
     pass
-    # from imageSearch.keras_cnn_imageSearch.base import base
-    # b = base ()
+
     
 
-    queryImage = "H:/datasets/testingset/20150716153359429.JPEG"
+    # queryImage = "H:/datasets/testingset/20150716153359429.JPEG"
+    # queryImage = "H:/datasets/testingset/20150716170631914.JPEG"
+    # queryImage = "./imagetest/image_rotate/19700102134147686.JPEG"
+    # main()
 
-    main()
-    
-    
-    
-    
-    
+    # recallRate()
     
 
 

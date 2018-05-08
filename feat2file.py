@@ -143,9 +143,7 @@ def testDatabase():
     # 取图像数据集列表
     img_list = b.getFileList (dataset, "JPEG")
     # 提取图像数据集列表特征后存入HDF5文件
-    t = time()
     etlFeature (showHDF5Len (h5filename), img_list, h5filename)
-    print ("特征数据库写入耗时(秒)：%.2f s" % (time () - t))
     # 读取图像特征值和图像名称
     t = time ()
     for i in range (showHDF5Len (h5filename)):

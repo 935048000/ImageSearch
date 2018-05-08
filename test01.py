@@ -84,5 +84,6 @@ im = "D:/datasets/trainset/20150716154609131.JPEG"
 # cv2.imwrite('12345.JPEG',res)
 # cv2.destroyWindow()
 
-
+b = [1,2,3,1,1,3,2,1]
+print(b.count(1))
 
