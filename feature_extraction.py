@@ -76,13 +76,14 @@ def testExtractFeat(img):
     return norm_feat
 
 def proTest():
-    img_path = "H:/datasets/trainset/19700102135249492.JPEG"
+    img_path = "./imagetest/image_rotate/19700102134147686.JPEG"
     t = time ()
     
     for _ in range(10):
-        testExtractFeat (img_path)
+        f = feature ()
+        norm_feat = f.extract_feat (img_path)
         
-    print ("特征提取耗时(秒)：%.2f s" % ((time () - t)/10))
+    print ("特征提取耗时(秒)：%.2f s" % ((time () - t)/100))
     return 0
 
 if __name__ == '__main__':
@@ -105,6 +106,6 @@ if __name__ == '__main__':
     #
     # testExtractFeat(img_path)
 
-    proTest ()
+    # proTest ()
     
     
