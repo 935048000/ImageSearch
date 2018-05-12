@@ -13,15 +13,17 @@ import time
 # 命令行参数功能
 def comdArgs():
     ap = argparse.ArgumentParser()
-    ap.add_argument("-image", required = True, help = "图像路径")
-    ap.add_argument("-f", required = True, help = "特征文件路径")
-    ap.add_argument("-result", required = True, help = "检索图像的路径")
+    ap.add_argument("-image", required = True, help = "输入需要查询位置信息的图像")
+    ap.add_argument("-f",help = "特征数据库路径")
+    ap.add_argument("-result",  help = "显示检索图像的路径")
+    ap.add_argument("-show",  help = "显示结果个数")
     args = vars(ap.parse_args())
     
     result = args['result']
     Model = args['f']
     queryImage = args['image']
-    return queryImage,Model,result
+    imageNum = args['show']
+    return queryImage,Model,result,imageNum
 
 
 # 显示图片：查询图，匹配结果图
@@ -142,11 +144,11 @@ def showSearchResult(resultnum,queryImage,ModelFile,imageinfopath):
         outputInfo = "匹配失败！"
         
     print ("原图为  :", queryImage)
-    print ("原图信息:",_imageInfo)
-    print ("最高相似度的%d张图片为: " % resultnum, imList)
+    print ("原图位置信息:",_imageInfo)
+    # print ("最高相似度的%d张图片为: " % resultnum, imList)
     print ("最高%d张图片的评分：" % resultnum, scoresList)
-    print ("图片信息为: ", imgInfoList)
-    print ("搜索结果 ：",outputInfo)
+    print ("检索结果位置信息: ", imgInfoList)
+    # print ("搜索结果 ：",outputInfo)
     print ("本次检索总耗时(秒)：%.2f s" % (time.time () - start2))
 
     showImage(queryImage,imList,result)
@@ -248,5 +250,7 @@ if __name__ == '__main__':
 
     # recallRate()
     
-
-
+    # 参数运行
+    queryImage, _Model, _result ,imageNum = comdArgs()
+    # print(imageNum)
+    showSearchResult (int(imageNum), queryImage, Model, imageinfopath)
