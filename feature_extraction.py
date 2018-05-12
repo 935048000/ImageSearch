@@ -51,9 +51,8 @@ class feature():
         
         input_shape = (272, 480, 3)
         model = VGG16(input_shape = (input_shape[0],input_shape[1],input_shape[2]), pooling = 'max', include_top = False)
-    
-        f = feature()
-        img = f.imageAdjust(img_path,input_shape[1],input_shape[0])
+        # 图像变换
+        img = self.imageAdjust(img_path,input_shape[1],input_shape[0])
         # 图像转化为向量
         img = image.img_to_array(img)
         # 改变向量形状
@@ -62,7 +61,6 @@ class feature():
         img = preprocess_input(img)
         # 预测
         feat = model.predict(img)
-        
         # 归一化
         # norm_feat = f.toOne(feat[0])
         return f.toOne(feat[0])
