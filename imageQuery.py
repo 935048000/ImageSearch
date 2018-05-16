@@ -12,6 +12,10 @@ import time
 
 # 命令行参数功能
 def comdArgs():
+    """
+    Command line parameter function.
+    :return:
+    """
     ap = argparse.ArgumentParser()
     ap.add_argument("-image", required = True, help = "输入需要查询位置信息的图像")
     ap.add_argument("-f",help = "特征数据库路径")
@@ -26,8 +30,15 @@ def comdArgs():
     return queryImage,Model,result,imageNum
 
 
-# 显示图片：查询图，匹配结果图
+# 显示图片：查询图+匹配结果图
 def showImage(queryImage, imlist, result):
+    """
+    Display image: query figure + match result graph.
+    :param queryImage:query Image
+    :param imlist:Image list
+    :param result:Gets the path of the image.
+    :return:
+    """
     # 读取和显示查询图像
     _queryImg = mpimg.imread (queryImage)
     plt.title ("Query Image")
@@ -43,6 +54,12 @@ def showImage(queryImage, imlist, result):
 
 # 获取图像信息
 def getImageInfo(image,imagePath):
+    """
+    Get image information
+    :param image:image
+    :param imagePath: image path
+    :return:image info list
+    """
     b = base()
     _imgInfoList = []
     _imgList = []
@@ -68,6 +85,12 @@ def getImageInfo(image,imagePath):
 
 # 图像特征检索，计算匹配得分
 def featureSearch(queryImage,feats):
+    """
+    Image feature retrieval, calculate match score.
+    :param queryImage:query Image
+    :param feats:feature
+    :return:sequence ID,score
+    """
     f = feature()
     # 提取查询图像的特征，计算 simlarity 评分和排序
     queryVec = f.extract_feat (queryImage)
@@ -84,6 +107,14 @@ def featureSearch(queryImage,feats):
 
 # 检索显示的相似度最高的图像数目
 def getSearchResult(maxres, imgNames, rank_ID, rank_score):
+    """
+    Retrieves the number of images that display the highest similarity.
+    :param maxres:According to the number of
+    :param imgNames:image name
+    :param rank_ID:sequence ID
+    :param rank_score:score
+    :return:
+    """
     _imList = []
     _scoresList = []
     
@@ -99,8 +130,16 @@ def getSearchResult(maxres, imgNames, rank_ID, rank_score):
     
     return _imList, _scoresList
 
-# 测试集测试用例
+# 验证测试集测试用例
 def testSetTest(testSet,imageinfopath,feats,imgNames):
+    """
+    Verify test set test cases.
+    :param testSet:test set
+    :param imageinfopath:image info path
+    :param feats:feature
+    :param imgNames:image name
+    :return:
+    """
     b = base()
     resultnum = 2
     imageList = b.getFileList (testSet,"JPEG")
@@ -128,6 +167,14 @@ def testSetTest(testSet,imageinfopath,feats,imgNames):
 
 # 显示搜索结果
 def showSearchResult(resultnum,queryImage,ModelFile,imageinfopath):
+    """
+    Display search results
+    :param resultnum:ranking
+    :param queryImage:query Image
+    :param ModelFile:database file
+    :param imageinfopath:image info path
+    :return:
+    """
     start2 = time.time ()
     outputInfo = ""
     feats, imgNames = rH5FileData2 ("feature", "imagename", ModelFile)
@@ -162,6 +209,11 @@ def main():
 
 # 性能测试用例
 def performanceTests(queryImage):
+    """
+    Performance test cases.
+    :param queryImage:
+    :return:
+    """
     start2 = time.time ()
     for _ in range(0,10):
         showSearchResult (3, queryImage, Model, imageinfopath)
@@ -172,6 +224,10 @@ def performanceTests(queryImage):
 
 # 召回率测试
 def recallRate():
+    """
+    testing recall
+    :return:
+    """
     recallList = []
     b = base()
     _testImgList = b.getFileList("H:/datasets/testingset","JPEG")
