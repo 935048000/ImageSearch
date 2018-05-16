@@ -11,12 +11,6 @@ from time import time
 
 b = base ()
 
-
-# class feature
-# 返回目录中所有jpg图像的文件名列表。
-# def getImageList(path):
-#     return [os.path.join (path, f) for f in os.listdir (path) if f.endswith ('.JPEG')]
-
 # 命令行参数功能
 def comdArgs():
     """
