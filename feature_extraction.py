@@ -12,6 +12,9 @@ from time import time
 VGG16模型,权重由ImageNet训练而来
 使用vgg16模型提取特征
 输出归一化特征向量
+The VGG16 model, the weight is trained by ImageNet.
+Features were extracted using the vgg16 model.
+Output normalized eigenvectors.
 '''
 class feature():
     """
@@ -20,8 +23,15 @@ class feature():
     def __init__(self):
         pass
     
-    # 图像变换
+    # 图像大小变换
     def imageAdjust(self,image,width,height):
+        """
+        Image size conversion
+        :param image:image
+        :param width:width
+        :param height:height
+        :return:image
+        """
         # 方法1，使用PIL的image方法进行图像插值，使图像符合模型定义的形状。
         # 插值模式 interpolation = "nearest", "bilinear","bicubic","lanczos","box","hamming"
         # img = image.load_img(img_path, target_size=(input_shape[0], input_shape[1]),interpolation="lanczos")
@@ -38,9 +48,20 @@ class feature():
 
     # 向量归一化
     def toOne(self,array):
+        """
+        Vector normalization
+        :param array:Vector
+        :return:Vector
+        """
         return array/LA.norm(array)
     
+    # 提取特征
     def extract_feat(self,img_path):
+        """
+        feature extract extraction
+        :param img_path:image
+        :return:feature
+        """
         # weights: None代表随机初始化，即不加载预训练权重。'imagenet'代表加载预训练权重
         # pooling: pooling：当include_top=False时，该参数指定了池化方式。None代表不池化，最后一个卷积层的输出为4D张量。
         #                   ‘avg’代表全局平均池化，‘max’代表全局最大值池化。
@@ -63,9 +84,15 @@ class feature():
         feat = model.predict(img)
         # 归一化
         # norm_feat = f.toOne(feat[0])
-        return f.toOne(feat[0])
+        return self.toOne(feat[0])
 
+# 测试特征提取功能
 def testExtractFeat(img):
+    """
+    Test feature extraction.
+    :param img:image
+    :return:
+    """
     f = feature ()
     # t = time()
     norm_feat = f.extract_feat (img)
@@ -75,7 +102,12 @@ def testExtractFeat(img):
     # print ("特征向量类型: ", type (norm_feat))
     return norm_feat
 
+# 测试特征提取性能
 def proTest():
+    """
+    Test feature extraction performance.
+    :return:
+    """
     img_path = "./imagetest/image_rotate/19700102134147686.JPEG"
     t = time ()
     
