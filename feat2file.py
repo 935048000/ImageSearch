@@ -32,6 +32,12 @@ def comdArgs():
 
 # 按指定格式读取h5文件
 def rH5FileData(Key,filename):
+    """
+    Read the h5 file in the specified format.
+    :param Key:index
+    :param filename:file name
+    :return:feat,image name
+    """
     try:
         with h5py.File (filename, 'r') as h5f:
             feats = h5f["data" + str (Key)][:]
@@ -42,6 +48,13 @@ def rH5FileData(Key,filename):
         return 1
 
 def rH5FileData2(Key1, key2, filename):
+    """
+    Read the h5 file in the specified format.
+    :param Key1: feats index
+    :param key2: image name index
+    :param filename: file name
+    :return: feat list,image name list
+    """
     NameList = []
     featsArrayList = []
     try:
@@ -59,6 +72,14 @@ def rH5FileData2(Key1, key2, filename):
 
 # 按指定格式写入h5文件（按key存入两个list）
 def wH5FileData(Key,feats,names,filename):
+    """
+    Write the h5 file in the specified format (save two lists by key)
+    :param Key:index
+    :param feats:feature
+    :param names:image name
+    :param filename:file name
+    :return:
+    """
     namess = []
     # 数据编码转换
     if type(names) is list:
@@ -77,6 +98,15 @@ def wH5FileData(Key,feats,names,filename):
 
 # 按指定格式写入h5文件（一次性存入两个list）
 def wH5FileData2(Key1,Key2,feats,names,filename):
+    """
+    Write the h5 file in the specified format (save two lists by key)
+    :param Key1: feature index
+    :param Key2: image name index
+    :param feats: feature
+    :param names: image name
+    :param filename: file name
+    :return:
+    """
     namess = []
     # 数据编码转换
     if type(names) is list:
@@ -95,7 +125,13 @@ def wH5FileData2(Key1,Key2,feats,names,filename):
 # 提取特征并写入文件
 # @profile (precision=6)
 def etlFeature(post,img_list,h5filename):
-
+    """
+    Extract features and write to files.
+    :param post:index
+    :param img_list:image list
+    :param h5filename:hdf5 file
+    :return:
+    """
     # 迭代方式，提取特征值写入h5文件
     feat = feature()
     # bar = ProgBar (len(img_list), monitor=True, title="提取图片特征,Image Total:%d" % len (img_list))
@@ -116,8 +152,13 @@ def etlFeature(post,img_list,h5filename):
     return 0
 
 
-# 获取HDF5文件数据数量，便于追加和读取。
+# 获取HDF5文件内数据条数，便于追加和读取。
 def showHDF5Len(filename):
+    """
+    Get the number of data in the HDF5 file, easy to append and read.
+    :param filename:HDF5 file
+    :return:file length
+    """
     # 文件不存在则重写，不追加
     if not os.path.exists(filename):
         return 0
@@ -136,6 +177,10 @@ def main():
 
 # 特征值数据库功能测试用例
 def testDatabase():
+    """
+    Feature value database functional test cases.
+    :return:
+    """
     featsList = []
     nameList = []
     h5filename = "./models/image_Feature_Test.h5"
